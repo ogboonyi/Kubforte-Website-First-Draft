@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kubforte | Management Consulting</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --blue:     #1A40CF;
+      --dark:     #0B0A1F;
+      --white:    #FFFFFF;
+      --offwhite: #F7F8FC;
+      --muted:    #6B7280;
+      --border:   #E5E7EB;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--white);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 100;
+      padding: 28px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: padding .3s, background .3s, backdrop-filter .3s;
+    }
+    nav.scrolled {
+      padding: 16px 80px;
+      background: rgba(11,10,31,.94);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-img {
+      height: 32px;
+      width: auto;
+      display: block;
+      background: #fff;
+      border-radius: 6px;
+      padding: 3px;
+    }
+    .nav-logo-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.4px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,.65);
+      text-decoration: none;
+      letter-spacing: .3px;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    .nav-btn {
+      background: var(--blue) !important;
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 5px;
+      font-weight: 700 !important;
+      transition: opacity .2s, transform .2s !important;
+    }
+    .nav-btn:hover { opacity: .88 !important; transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      background: var(--dark);
+      display: flex;
+      align-items: flex-end;
+      padding: 0 80px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(26,64,207,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,64,207,.07) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -10%;
+      right: -5%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(26,64,207,.4) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-glow-2 {
+      position: absolute;
+      bottom: 5%;
+      left: 15%;
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(26,64,207,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 900px; }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 36px;
+    }
+
+    .hero-h1 {
+      font-size: clamp(30px, 3.6vw, 48px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.12;
+      letter-spacing: -1.5px;
+      margin-bottom: 28px;
+    }
+    .hero-h1 .accent { color: var(--blue); }
+
+    .hero-sub {
+      font-size: 17px;
+      color: rgba(255,255,255,.5);
+      font-weight: 400;
+      line-height: 1.75;
+      max-width: 460px;
+      margin-bottom: 52px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: var(--blue);
+      color: #fff;
+      padding: 15px 30px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: .3px;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(26,64,207,.45);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,.6);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      padding-bottom: 3px;
+      border-bottom: 1px solid rgba(255,255,255,.25);
+      transition: color .2s, border-color .2s;
+    }
+    .btn-outline:hover { color: #fff; border-color: rgba(255,255,255,.7); }
+
+    .hero-scroll-hint {
+      position: absolute;
+      right: 80px;
+      bottom: 100px;
+      writing-mode: vertical-lr;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 48px;
+      background: rgba(255,255,255,.15);
+    }
+
+    /* ─── ABOUT ─── */
+    .about {
+      padding: 160px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 120px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 18px;
+    }
+
+    .section-h {
+      font-size: clamp(34px, 4vw, 52px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -1.8px;
+      color: var(--dark);
+      margin-bottom: 24px;
+    }
+    .section-h .accent { color: var(--blue); }
+
+    .section-p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-weight: 400;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 48px;
+    }
+    .value-tile {
+      padding: 24px 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .value-tile:hover {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,64,207,.06);
+    }
+    .value-tile h4 {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: .5px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .value-tile p {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .dark-card {
+      background: var(--dark);
+      border-radius: 20px;
+      padding: 64px 52px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .dark-card::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -25%;
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, rgba(26,64,207,.55) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .dark-card-quote {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: -.4px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 52px;
+    }
+    .dark-card-quote em { color: var(--blue); font-style: normal; }
+
+    .dark-card-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .dstat {
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .dstat:nth-child(odd)  { padding-right: 32px; border-right: 1px solid rgba(255,255,255,.08); }
+    .dstat:nth-child(even) { padding-left: 32px; }
+    .dstat-val {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .dstat-lbl {
+      font-size: 10px;
+      color: rgba(255,255,255,.4);
+      font-weight: 600;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    /* ─── WHO WE SERVE ─── */
+    .serve {
+      padding: 120px 80px;
+      background: var(--dark);
+      color: #fff;
+    }
+    .serve-inner {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+    .serve .section-h { color: #fff; }
+    .serve .section-p { color: rgba(255,255,255,.45); margin-top: 20px; }
+
+    .serve-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .serve-card {
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      padding: 32px 28px;
+      transition: border-color .25s, background .25s;
+    }
+    .serve-card:hover {
+      border-color: var(--blue);
+      background: rgba(26,64,207,.1);
+    }
+    .serve-card-num {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--blue);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    .serve-card h4 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.2px;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .serve-card p {
+      font-size: 12px;
+      color: rgba(255,255,255,.45);
+      line-height: 1.65;
+    }
+
+    /* ─── SERVICES ─── */
+    .services {
+      background: var(--offwhite);
+      padding: 140px 80px;
+    }
+
+    .services-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      margin-bottom: 64px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .scard {
+      background: #fff;
+      border-radius: 14px;
+      padding: 40px 36px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+    }
+    .scard:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 56px rgba(11,10,31,.08);
+      border-color: rgba(26,64,207,.22);
+    }
+
+    .scard.blue {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+    .scard.blue:hover {
+      box-shadow: 0 20px 56px rgba(26,64,207,.35);
+    }
+
+    .scard.wide {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .wide-col {
+      display: flex;
+      flex-direction: column;
+      padding: 44px 44px;
+    }
+    .wide-divider {
+      background: var(--border);
+      align-self: stretch;
+    }
+
+    .sicon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(26,64,207,.09);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+      flex-shrink: 0;
+    }
+    .scard.blue .sicon { background: rgba(255,255,255,.15); }
+
+    .sicon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--blue);
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .scard.blue .sicon svg { stroke: #fff; }
+
+    .scard-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -.2px;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .scard.blue .scard-title { color: #fff; }
+
+    .scard-body {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+      flex: 1;
+    }
+    .scard.blue .scard-body { color: rgba(255,255,255,.75); }
+
+    .stags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 24px;
+    }
+    .stag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .4px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: var(--offwhite);
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .scard.blue .stag {
+      background: rgba(255,255,255,.15);
+      color: rgba(255,255,255,.9);
+    }
+
+    /* ─── WHY US ─── */
+    .why {
+      background: var(--dark);
+      padding: 140px 80px;
+      color: #fff;
+    }
+    .why-inner {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 100px;
+      align-items: start;
+    }
+    .why .section-h { color: #fff; }
+    .why .section-p { color: rgba(255,255,255,.45); margin-top: 20px; }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,.08);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .witem {
+      background: var(--dark);
+      padding: 44px 36px;
+      transition: background .25s;
+    }
+    .witem:hover { background: rgba(26,64,207,.18); }
+    .wnum {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      color: var(--blue);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    .witem h4 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.2px;
+      margin-bottom: 10px;
+    }
+    .witem p {
+      font-size: 13px;
+      color: rgba(255,255,255,.45);
+      line-height: 1.7;
+    }
+
+    /* ─── CTA ─── */
+    .cta {
+      padding: 180px 80px;
+      text-align: center;
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(26,64,207,.05) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 24px;
+    }
+    .cta-h {
+      font-size: clamp(44px, 6.5vw, 80px);
+      font-weight: 900;
+      color: var(--dark);
+      letter-spacing: -2.5px;
+      line-height: 1.02;
+      max-width: 680px;
+      margin: 0 auto 24px;
+    }
+    .cta-h .accent { color: var(--blue); }
+    .cta-sub {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 400px;
+      margin: 0 auto 52px;
+    }
+    .cta-btns {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .cta-email-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .cta-email-link:hover { color: var(--blue); }
+    .cta-email-link svg {
+      width: 15px; height: 15px;
+      stroke: currentColor; stroke-width: 2;
+      fill: none; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark);
+      padding: 64px 80px 40px;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 52px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      margin-bottom: 32px;
+      gap: 60px;
+    }
+    .footer-brand { flex-shrink: 0; }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      margin-bottom: 14px;
+    }
+    .footer-logo-img { height: 28px; width: auto; display: block; background: #fff; border-radius: 6px; padding: 3px; }
+    .footer-logo-name { font-size: 18px; font-weight: 800; color: #fff; }
+    .footer-tagline {
+      font-size: 13px;
+      color: rgba(255,255,255,.35);
+      max-width: 220px;
+      line-height: 1.65;
+    }
+
+    .footer-cols { display: flex; gap: 72px; }
+    .fcol h5 {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      margin-bottom: 20px;
+    }
+    .fcol ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .fcol a {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,.6);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .fcol a:hover { color: #fff; }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,.25); }
+    .footer-contact {
+      font-size: 12px;
+      color: rgba(255,255,255,.45);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-contact:hover { color: #fff; }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      background: var(--offwhite);
+      padding: 56px 80px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background-color: var(--border);
+    }
+    .stat-item {
+      background: var(--offwhite);
+      padding: 36px 40px;
+      text-align: center;
+    }
+    .stat-val {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 900;
+      color: var(--blue);
+      letter-spacing: -1.5px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-lbl {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: .3px;
+      line-height: 1.5;
+    }
+
+    /* ─── TEAM ─── */
+    .team {
+      padding: 140px 80px;
+      background: var(--white);
+    }
+    .team-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      margin-bottom: 64px;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .team-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: box-shadow .3s, border-color .3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .team-card:hover {
+      box-shadow: 0 20px 56px rgba(11,10,31,.07);
+      border-color: rgba(26,64,207,.2);
+    }
+    .team-photo {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .team-photo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 60% 40%, rgba(26,64,207,.5) 0%, transparent 65%);
+    }
+    .team-initials {
+      font-size: 48px;
+      font-weight: 900;
+      color: rgba(255,255,255,.15);
+      letter-spacing: -2px;
+      position: relative;
+      z-index: 1;
+    }
+    .team-info { padding: 32px 32px 36px; display: flex; flex-direction: column; flex: 1; }
+    .team-bio { flex: 1; }
+    .team-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -.3px;
+      margin-bottom: 4px;
+    }
+    .team-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .team-bio {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+    .team-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .team-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .4px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: var(--offwhite);
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* ─── PROCESS ─── */
+    .process {
+      background: var(--offwhite);
+      padding: 140px 80px;
+    }
+    .process-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      margin-bottom: 64px;
+    }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .pstep {
+      background: var(--white);
+      padding: 44px 36px;
+      position: relative;
+    }
+    .pstep-num {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .pstep-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -.3px;
+      margin-bottom: 12px;
+    }
+    .pstep-body {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .pstep-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-top: 20px;
+    }
+    .pstep-badge.free { background: rgba(26,64,207,.08); color: var(--blue); }
+    .pstep-badge.paid { background: rgba(11,10,31,.06); color: var(--muted); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1100px) {
+      nav, nav.scrolled { padding-left: 40px; padding-right: 40px; }
+      .hero  { padding-left: 40px; padding-right: 40px; }
+      .about { padding: 100px 40px; grid-template-columns: 1fr; gap: 60px; }
+      .services { padding: 100px 40px; }
+      .services-top { grid-template-columns: 1fr; gap: 20px; }
+      .serve { padding: 100px 40px; }
+      .serve-inner { grid-template-columns: 1fr; gap: 48px; }
+      .stats-bar { grid-template-columns: 1fr 1fr; padding: 0; }
+      .team { padding: 100px 40px; }
+      .team-header { grid-template-columns: 1fr; gap: 20px; }
+      .process { padding: 100px 40px; }
+      .process-header { grid-template-columns: 1fr; gap: 20px; }
+      .why  { padding: 100px 40px; }
+      .why-inner { grid-template-columns: 1fr; gap: 56px; }
+      .cta  { padding: 120px 40px; }
+      footer { padding: 60px 40px 36px; }
+      .scard.wide { grid-column: span 3; }
+    }
+
+    @media (max-width: 840px) {
+      nav .nav-links { display: none; }
+      .hero { padding: 140px 24px 80px; align-items: flex-start; flex-direction: column; justify-content: flex-end; }
+      .about, .serve, .services, .team, .process, .why, .cta { padding-left: 24px; padding-right: 24px; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+      .team-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; }
+      footer { padding-left: 24px; padding-right: 24px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .scard.wide { grid-column: span 1; grid-template-columns: 1fr; padding: 0; }
+      .wide-col:first-child { border-bottom: 1px solid var(--border); }
+      .wide-divider { display: none; }
+      .serve-cards { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; }
+      .footer-cols { flex-direction: column; gap: 32px; }
+      .values-grid { grid-template-columns: 1fr; }
+      .hero-scroll-hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <img src="Logo.png" alt="Kubforte" class="nav-logo-img" />
+    <span class="nav-logo-name">Kubforte</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#serve">Who We Serve</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#why">Our Approach</a></li>
+    <!-- Replace with your Google Calendar Appointment Scheduling URL -->
+    <li><a href="https://calendar.google.com/calendar/appointments" target="_blank" rel="noopener" class="nav-btn">Schedule a Call</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-content">
+    <p class="hero-label">Business Management Consulting</p>
+    <h1 class="hero-h1">
+      The backbone<br>behind the <span class="accent">growth.</span>
+    </h1>
+    <p class="hero-sub">
+      Strategic consulting for businesses navigating complexity, built on data and delivered with precision.
+    </p>
+    <div class="hero-actions">
+      <!-- Replace with your Google Calendar Appointment Scheduling URL -->
+      <a href="https://calendar.google.com/calendar/appointments" class="btn-primary" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        Schedule a Call
+      </a>
+      <a href="mailto:info@kubforte.com" class="btn-outline">
+        info@kubforte.com &rarr;
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">Scroll</div>
+</section>
+
+<!-- ═══ STATS BAR ═══ -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-val">$100M+</div>
+    <div class="stat-lbl">Monthly transactions<br>supported (Obiex Africa)</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val">52M</div>
+    <div class="stat-lbl">Accounts KYC-linked<br>(Access Bank)</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val">30%</div>
+    <div class="stat-lbl">Operational efficiency<br>improvement delivered</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val">$8M+</div>
+    <div class="stat-lbl">Portfolio recovered<br>through structured agreements</div>
+  </div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<section class="about" id="about">
+  <div>
+    <p class="eyebrow">Who We Are</p>
+    <h2 class="section-h">Empowering businesses<br>for <span class="accent">tomorrow.</span></h2>
+    <p class="section-p">
+      Kubforte pairs strategic excellence with transformative leadership. Our approach is rooted in data-driven insights and a relentless pursuit of excellence. We work closely with clients to understand their unique challenges and craft tailored strategies that drive sustainable growth.
+    </p>
+    <div class="values-grid">
+      <div class="value-tile">
+        <h4>Transparency</h4>
+        <p>Clear, honest communication at every stage of the engagement.</p>
+      </div>
+      <div class="value-tile">
+        <h4>Continuous Improvement</h4>
+        <p>Refining methods and outcomes, always moving forward.</p>
+      </div>
+      <div class="value-tile">
+        <h4>Professionalism</h4>
+        <p>Expert-level delivery from discovery through implementation.</p>
+      </div>
+      <div class="value-tile">
+        <h4>Data-Driven</h4>
+        <p>Decisions grounded in real insight, not assumption.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dark-card">
+    <p class="dark-card-quote">
+      We don't just advise. We build the <em>operational backbone</em> your business needs to scale.
+    </p>
+    <div class="dark-card-stats">
+      <div class="dstat">
+        <div class="dstat-val">5</div>
+        <div class="dstat-lbl">Core Service Areas</div>
+      </div>
+      <div class="dstat">
+        <div class="dstat-val">E2E</div>
+        <div class="dstat-lbl">Delivery Model</div>
+      </div>
+      <div class="dstat">
+        <div class="dstat-val">100%</div>
+        <div class="dstat-lbl">Client Focus</div>
+      </div>
+      <div class="dstat">
+        <div class="dstat-val">OSFI</div>
+        <div class="dstat-lbl">Regulated Expertise</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHO WE SERVE ═══ -->
+<section class="serve" id="serve">
+  <div class="serve-inner">
+    <div>
+      <p class="eyebrow">Who We Serve</p>
+      <h2 class="section-h">Built for your most<br>critical stage.</h2>
+      <p class="section-p">
+        We work with organizations navigating growth, regulation, and operational complexity, where the cost of getting it wrong is high.
+      </p>
+    </div>
+    <div class="serve-cards">
+      <div class="serve-card">
+        <p class="serve-card-num">01</p>
+        <h4>Payments Businesses</h4>
+        <p>Scaling payment platforms that need operational infrastructure to match their growth and compliance obligations.</p>
+      </div>
+      <div class="serve-card">
+        <p class="serve-card-num">02</p>
+        <h4>OSFI Regulated Fintechs</h4>
+        <p>Federally regulated entities preparing for licensing, ongoing compliance, and OSFI guideline implementation.</p>
+      </div>
+      <div class="serve-card">
+        <p class="serve-card-num">03</p>
+        <h4>Emerging Financial Services</h4>
+        <p>New entrants building the processes, systems, and governance structures required to operate at scale.</p>
+      </div>
+      <div class="serve-card">
+        <p class="serve-card-num">04</p>
+        <h4>Growth Stage SMEs</h4>
+        <p>Established businesses ready to professionalize operations and build the backbone that supports the next phase of growth.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section class="services" id="services">
+  <div class="services-top">
+    <div>
+      <p class="eyebrow">What We Do</p>
+      <h2 class="section-h">Services built for impact.</h2>
+    </div>
+    <p class="section-p">
+      From technology implementation to regulatory compliance, we deliver end-to-end solutions that strengthen operations and position your business for sustained, measurable growth.
+    </p>
+  </div>
+
+  <div class="services-grid">
+
+    <!-- ERP -->
+    <div class="scard">
+      <div class="sicon">
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="3" width="7" height="7"/>
+          <rect x="15" y="3" width="7" height="7"/>
+          <rect x="15" y="14" width="7" height="7"/>
+          <rect x="2" y="14" width="7" height="7"/>
+          <line x1="9" y1="6.5" x2="15" y2="6.5"/>
+          <line x1="9" y1="17.5" x2="15" y2="17.5"/>
+          <line x1="12" y1="10" x2="12" y2="14"/>
+        </svg>
+      </div>
+      <h3 class="scard-title">ERP / Systems &amp; Operations</h3>
+      <p class="scard-body">End-to-end ERP selection, configuration, and go-live support. We align your systems architecture with operational reality to reduce friction and drive efficiency at scale.</p>
+      <div class="stags">
+        <span class="stag">System Selection</span>
+        <span class="stag">Configuration</span>
+        <span class="stag">Go-Live Support</span>
+      </div>
+    </div>
+
+    <!-- Process Design -->
+    <div class="scard">
+      <div class="sicon">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
+        </svg>
+      </div>
+      <h3 class="scard-title">Process Design &amp; Optimization</h3>
+      <p class="scard-body">Mapping, redesigning, and continuously improving the workflows that run your business. From process discovery to automation-readiness, we cut waste and build for scale.</p>
+      <div class="stags">
+        <span class="stag">Process Mapping</span>
+        <span class="stag">Automation Readiness</span>
+        <span class="stag">Lean Methods</span>
+      </div>
+    </div>
+
+    <!-- Regulatory: blue featured card -->
+    <div class="scard blue">
+      <div class="sicon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <h3 class="scard-title">Regulatory &amp; Compliance Readiness</h3>
+      <p class="scard-body">Comprehensive readiness programs for Canada's most complex regulatory environments. We operationalize compliance, not just document it.</p>
+      <div class="stags">
+        <span class="stag">RPAA Operationalization</span>
+        <span class="stag">OSFI Licensing Prep</span>
+        <span class="stag">B-13 / B-10 / E-21</span>
+        <span class="stag">AML / KYC Design</span>
+      </div>
+    </div>
+
+    <!-- Agile + Data: wide card spanning 2 cols -->
+    <div class="scard wide">
+      <div class="wide-col">
+        <div class="sicon">
+          <svg viewBox="0 0 24 24">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <h3 class="scard-title">Agile Delivery / Product Operations</h3>
+        <p class="scard-body">Embedding agile frameworks into delivery teams to accelerate product cycles and improve cross-functional collaboration. We build the operating model, not just the rituals.</p>
+        <div class="stags">
+          <span class="stag">Scrum &amp; Kanban</span>
+          <span class="stag">Product Ops</span>
+          <span class="stag">Team Enablement</span>
+        </div>
+      </div>
+
+      <div class="wide-divider"></div>
+
+      <div class="wide-col">
+        <div class="sicon">
+          <svg viewBox="0 0 24 24">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+        <h3 class="scard-title">Data &amp; Reporting</h3>
+        <p class="scard-body">Turning raw data into actionable intelligence. We design reporting frameworks, build dashboards, and establish governance structures that make data a true strategic asset.</p>
+        <div class="stags">
+          <span class="stag">Dashboards</span>
+          <span class="stag">Data Governance</span>
+          <span class="stag">Reporting Frameworks</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ WHY US ═══ -->
+<section class="why" id="why">
+  <div class="why-inner">
+    <div>
+      <p class="eyebrow">Our Approach</p>
+      <h2 class="section-h">Built different.<br>Delivered <span class="accent">right.</span></h2>
+      <p class="section-p">
+        Four principles that shape every engagement we take on.
+      </p>
+    </div>
+    <div class="why-grid">
+      <div class="witem">
+        <p class="wnum">01</p>
+        <h4>Embedded Expertise</h4>
+        <p>We work inside your operations, not at arm's length. Our consultants become an extension of your team.</p>
+      </div>
+      <div class="witem">
+        <p class="wnum">02</p>
+        <h4>Regulated Industry Focus</h4>
+        <p>Deep experience across OSFI, FINTRAC, and Canada's financial regulatory landscape. Move faster with confidence.</p>
+      </div>
+      <div class="witem">
+        <p class="wnum">03</p>
+        <h4>End-to-End Delivery</h4>
+        <p>From discovery to go-live and beyond. We see every engagement through to measurable, sustainable outcomes.</p>
+      </div>
+      <div class="witem">
+        <p class="wnum">04</p>
+        <h4>Precision by Default</h4>
+        <p>Every recommendation is backed by data, mapped to your constraints, and designed to last beyond the engagement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TEAM ═══ -->
+<section class="team" id="team">
+  <div class="team-header">
+    <div>
+      <p class="eyebrow">The Team</p>
+      <h2 class="section-h">Operators first.<br>Consultants <span class="accent">second.</span></h2>
+    </div>
+    <p class="section-p">Every person at Kubforte has worked inside the systems, regulations, and pressures your business faces. We bring practitioner experience, not just advisory distance.</p>
+  </div>
+  <div class="team-grid">
+
+    <div class="team-card">
+      <div class="team-photo">
+        <span class="team-initials">OO</span>
+      </div>
+      <div class="team-info">
+        <h3 class="team-name">Onyinye Ogbo</h3>
+        <p class="team-title">Principal Consultant</p>
+        <p class="team-bio">Onyinye brings cross-sector experience spanning fintech operations, banking compliance, and enterprise systems delivery. Previously led AML/KYC-aligned product operations at Obiex Africa supporting $100M+ monthly transactions, and drove KYC compliance for 52 million accounts at Access Bank.</p>
+        <div class="team-tags">
+          <span class="team-tag">MBA</span>
+          <span class="team-tag">Fintech Operations</span>
+          <span class="team-tag">AML / KYC</span>
+          <span class="team-tag">Agile Delivery</span>
+          <span class="team-tag">ERP Systems</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo">
+        <span class="team-initials">TI</span>
+      </div>
+      <div class="team-info">
+        <h3 class="team-name">Thelma Igboanugo</h3>
+        <p class="team-title">Data &amp; Reporting Lead</p>
+        <p class="team-bio">Thelma specialises in turning complex financial data into clear operational intelligence. She has built executive dashboards, automated reconciliation processes, and recovered $330K in missing funds through financial modelling, bringing rigour and visibility to every engagement.</p>
+        <div class="team-tags">
+          <span class="team-tag">Data &amp; Reporting</span>
+          <span class="team-tag">Power BI</span>
+          <span class="team-tag">Financial Modelling</span>
+          <span class="team-tag">SQL / ETL</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<section class="process" id="process">
+  <div class="process-header">
+    <div>
+      <p class="eyebrow">How We Work</p>
+      <h2 class="section-h">Simple process.<br>No <span class="accent">surprises.</span></h2>
+    </div>
+    <p class="section-p">Every engagement follows the same three-phase structure — so you always know where you are, what comes next, and what you're paying for.</p>
+  </div>
+  <div class="process-steps">
+    <div class="pstep">
+      <p class="pstep-num">01</p>
+      <h3 class="pstep-title">Discovery</h3>
+      <p class="pstep-body">A focused 30-minute conversation to understand your context, challenges, and goals. We assess fit before proposing anything — no pitch, no obligation.</p>
+      <span class="pstep-badge free">Complimentary</span>
+    </div>
+    <div class="pstep">
+      <p class="pstep-num">02</p>
+      <h3 class="pstep-title">Design</h3>
+      <p class="pstep-body">A paid scoping and assessment phase where we go deep. We map your constraints, define the right scope, and build a tailored delivery plan your team can act on.</p>
+      <span class="pstep-badge paid">Paid Engagement</span>
+    </div>
+    <div class="pstep">
+      <p class="pstep-num">03</p>
+      <h3 class="pstep-title">Delivery</h3>
+      <p class="pstep-body">We execute end-to-end, building the infrastructure, processes, and capabilities your team owns long after the engagement ends. No slide decks and walk away.</p>
+      <span class="pstep-badge paid">Paid Engagement</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta" id="contact">
+  <p class="cta-eyebrow">Ready to Begin?</p>
+  <h2 class="cta-h">
+    Let's build<br>the <span class="accent">backbone.</span>
+  </h2>
+  <p class="cta-sub">Book a discovery call. Let's talk about where you are and where you need to go.</p>
+  <div class="cta-btns">
+    <!-- Replace with your Google Calendar Appointment Scheduling URL -->
+    <a href="https://calendar.google.com/calendar/appointments" class="btn-primary" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      Schedule a Call
+    </a>
+    <a href="mailto:info@kubforte.com" class="cta-email-link">
+      <svg viewBox="0 0 24 24">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      info@kubforte.com
+    </a>
+  </div>
+  <p style="margin-top:20px;font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.3px;">30-minute fit conversation &nbsp;&middot;&nbsp; No pitch &nbsp;&middot;&nbsp; No obligation</p>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="footer-logo">
+        <img src="Logo.png" alt="Kubforte" class="footer-logo-img" />
+        <span class="footer-logo-name">Kubforte</span>
+      </a>
+      <p class="footer-tagline">Empowering businesses for tomorrow. Strategic consulting built for the way business actually works.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="fcol">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#services">ERP &amp; Systems</a></li>
+          <li><a href="#services">Process Optimization</a></li>
+          <li><a href="#services">Agile Delivery</a></li>
+          <li><a href="#services">Regulatory Readiness</a></li>
+          <li><a href="#services">Data &amp; Reporting</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#why">Our Approach</a></li>
+          <li><a href="mailto:info@kubforte.com">Contact</a></li>
+          <!-- Replace with your Google Calendar Appointment Scheduling URL -->
+          <li><a href="https://calendar.google.com/calendar/appointments" target="_blank" rel="noopener">Schedule a Call</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">&copy; 2025 Kubforte. All rights reserved.</p>
+    <a href="mailto:info@kubforte.com" class="footer-contact">info@kubforte.com</a>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 48);
+  }, { passive: true });
+</script>
+
+</body>
+</html>
