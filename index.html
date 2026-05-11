@@ -749,8 +749,9 @@
     }
     .team-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 520px);
       gap: 24px;
+      justify-content: center;
     }
     .team-card {
       border: 1px solid var(--border);
@@ -774,19 +775,13 @@
       position: relative;
       overflow: hidden;
     }
-    .team-photo::before {
-      content: '';
+    .team-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 60% 40%, rgba(26,64,207,.5) 0%, transparent 65%);
-    }
-    .team-initials {
-      font-size: 48px;
-      font-weight: 900;
-      color: rgba(255,255,255,.15);
-      letter-spacing: -2px;
-      position: relative;
-      z-index: 1;
     }
     .team-info { padding: 32px 32px 36px; display: flex; flex-direction: column; flex: 1; }
     .team-bio { flex: 1; }
@@ -1258,7 +1253,7 @@
 
     <div class="team-card">
       <div class="team-photo">
-        <span class="team-initials">OO</span>
+        <img src="Headshot.jpg" alt="Onyinye Ogbo" />
       </div>
       <div class="team-info">
         <h3 class="team-name">Onyinye Ogbo</h3>
@@ -1270,24 +1265,6 @@
           <span class="team-tag">AML / KYC</span>
           <span class="team-tag">Agile Delivery</span>
           <span class="team-tag">ERP Systems</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="team-card">
-      <div class="team-photo">
-        <span class="team-initials">TI</span>
-      </div>
-      <div class="team-info">
-        <h3 class="team-name">Thelma Igboanugo</h3>
-        <p class="team-title">Financial Data &amp; Insights Lead</p>
-        <p class="team-bio">Thelma specialises in turning complex financial data into clear operational intelligence. She has built executive dashboards, automated reconciliation processes, and recovered $330K in missing funds through financial modelling, bringing rigour and visibility to every engagement.</p>
-        <div class="team-tags">
-          <span class="team-tag">Data &amp; Reporting</span>
-          <span class="team-tag">Financial Modelling</span>
-          <span class="team-tag">Budgeting &amp; Forecasting</span>
-          <span class="team-tag">Power BI</span>
-          <span class="team-tag">SQL / ETL</span>
         </div>
       </div>
     </div>
